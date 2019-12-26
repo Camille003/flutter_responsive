@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -36,19 +37,16 @@ class _NewTransactionState extends State<NewTransaction> {
   }
 
   void _presentDatePicker() {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2019),
-      lastDate: DateTime.now(),
-    ).then((pickedDate) {
-      if (pickedDate == null) {
-        return;
-      }
-      setState(() {
-        _selectedDate = pickedDate;
-      });
-    });
+    CupertinoDatePicker(
+      initialDateTime: DateTime.now(),
+      mode: CupertinoDatePickerMode.date,
+      onDateTimeChanged: (date) {
+        setState(() {
+          _selectedDate = date;
+        });
+      },
+    );
+
     print('...');
   }
 
@@ -67,20 +65,17 @@ class _NewTransactionState extends State<NewTransaction> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              TextField(
-                decoration: InputDecoration(labelText: 'Title'),
+              CupertinoTextField(
+                placeholder: 'Title',
+                keyboardType: TextInputType.text,
                 controller: _titleController,
                 onSubmitted: (_) => _submitData(),
-                // onChanged: (val) {
-                //   titleInput = val;
-                // },
               ),
-              TextField(
-                decoration: InputDecoration(labelText: 'Amount'),
+              CupertinoTextField(
+                placeholder: 'Amount',
                 controller: _amountController,
                 keyboardType: TextInputType.number,
                 onSubmitted: (_) => _submitData(),
-                // onChanged: (val) => amountInput = val,
               ),
               Container(
                 height: 70,
@@ -93,16 +88,21 @@ class _NewTransactionState extends State<NewTransaction> {
                             : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
                       ),
                     ),
-                    FlatButton(
-                      textColor: Theme.of(context).primaryColor,
-                      child: Text(
-                        'Choose Date',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      onPressed: _presentDatePicker,
-                    ),
+                    CupertinoButton(
+                      child: Text('Choose Date'),
+                      onPressed: () {},
+                      color: Colors.purple,
+                    )
+                    // FlatButton(
+                    //   textColor: Theme.of(context).primaryColor,
+                    //   child: Text(
+                    //     'Choose Date',
+                    //     style: TextStyle(
+                    //       fontWeight: FontWeight.bold,
+                    //     ),
+                    //   ),
+                    //   onPressed: _presentDatePicker,
+                    // ),
                   ],
                 ),
               ),
